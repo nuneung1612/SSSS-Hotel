@@ -128,10 +128,10 @@
     <nav class="top-nav">
         <a href="#" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a href="#">HOME</a>
-            <a href="#">History</a>
-            <a href="#">Manage Room</a>
-            <a href="#">Reserver</a>
+            <a href="adminhome.php">HOME</a>
+            <a href="admin-history.php">History</a>
+            <a href="admin-manage-room.php">Manage Room</a>
+            <a href="admin-reservation.php">Reservation</a>
             <a href="#" class="username">
                 Username
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
