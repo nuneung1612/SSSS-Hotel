@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,37 +22,6 @@
 
         body {
             background-color: var(--lighter-purple);
-        }
-
-        .header {
-            background-color: var(--primary-purple);
-            padding: 1rem 2rem;
-            color: white;
-        }
-
-        .brand {
-            font-size: 1.5rem;
-            color: white;
-            text-decoration: none;
-        }
-
-        .nav-menu {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            justify-content: flex-end;
-            margin-top: -1.5rem;
-        }
-
-
-        .nav-menu a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .nav-item {
-            color: white;
-            text-decoration: none;
         }
 
         .booking-button {
@@ -203,6 +173,7 @@
             cursor: pointer;
             font-weight: bold;
         }
+
         .username {
             display: flex;
             align-items: center;
@@ -218,30 +189,84 @@
             background-color: var(--primary-purple);
             color: white;
         }
+
+        .top-nav {
+            background-color: #584b5f;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .username {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sub-nav {
+            background-color: #6c5f73;
+            display: flex;
+            justify-content: space-between;
+            padding: 0;
+        }
+
+        .sub-nav a {
+            flex: 1;
+            color: white;
+            text-decoration: none;
+            padding: 1rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .sub-nav a:hover {
+            background-color: #7d6e84;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+        }
+
+        .hover:hover {
+            background-color: #d6cccc;
+        }
     </style>
 </head>
+
 <body>
-    <header class="header">
-        <a href="#" class="brand">So Sad So Stay</a>
-        <nav class="nav-menu">
-            <a href="#" class="nav-item">HOME</a>
-            <a href="#" class="nav-item">Rooms</a>
-            <a href="#" class="nav-item">Contact Us</a>
-            <a href="#" class="nav-item">Booking</a>
-            <a href="#" class="username">
+    <nav class="top-nav">
+        <a href="./" class="logo">So Sad So Stay</a>
+        <div class="nav-links">
+            <a class="hover" href="./">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
+            <a class="hover" href="./bookroom.php">Booking</a>
+            <a class="hover" href="#" class="username">
                 Username
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
                 </svg>
             </a>
-        </nav>
-    </header>
-
-    <div class="tabs">
-        <div class="tab active">Book a room</div>
-        <div class="tab">My booking</div>
-        <div class="tab">Booking History</div>
+        </div>
+    </nav>
+    <div class="sub-nav">
+        <a class="hover" href="#">Book a room</a>
+        <a class="hover" href="./bookhistory.php">Booking History</a>
     </div>
 
     <main class="main-content">
@@ -304,8 +329,7 @@
                 </div>
 
                 <div class="booking-buttons">
-                    <button type="button" class="btn btn-book">Book Now</button>
-                    <button type="button" class="btn btn-pay">Book and pay Now</button>
+                    <button type="button" onclick="document.location='./payments.php'" class="btn btn-pay">Book and pay Now</button>
                 </div>
             </form>
         </div>
@@ -343,4 +367,5 @@
         });
     </script>
 </body>
+
 </html>

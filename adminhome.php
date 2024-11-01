@@ -1,7 +1,30 @@
+<?php
+session_start();
+// 1. Connect to Database
+$db = new SQLite3('./database.db');
 
+// 2. Open Database
+if (!$db) {
+    echo $db->lastErrorMsg();
+}
 
+if (isset($_SESSION['admin_login'])) {
+    $cusid = $_SESSION['admin_login'];
+
+    $check_admin = $db->prepare('SELECT * FROM user WHERE id = :id');
+    $check_admin->bindParam(':id', $cusid);
+    $result_admin = $check_admin->execute();
+    $admin = $result_admin->fetchArray(SQLITE3_ASSOC);
+    $_SESSION['admin_login_username'] = $admin['username'];
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ../frontend/loginPage.php');
+}
+$db->close();
+?>
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>So Sad So Stay Hotel</title>
     <style>
@@ -80,7 +103,8 @@
             border-radius: 5px;
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid #ddd;
@@ -107,11 +131,13 @@
             border-radius: 20px;
             cursor: pointer;
         }
+
         .logo {
             font-size: 1.5rem;
             color: white;
             text-decoration: none;
         }
+
         .nav-links {
             display: flex;
             align-items: center;
@@ -124,6 +150,7 @@
         }
     </style>
 </head>
+
 <body>
     <nav class="top-nav">
         <a href="#" class="logo">So Sad So Stay</a>
@@ -133,7 +160,7 @@
             <a href="admin-manage-room.php">Manage Room</a>
             <a href="admin-reservation.php">Reservation</a>
             <a href="#" class="username">
-                Username
+                <?php echo $admin['username']; ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -224,4 +251,5 @@
         }
     </script>
 </body>
+
 </html>

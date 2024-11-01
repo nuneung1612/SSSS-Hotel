@@ -13,15 +13,24 @@ session_start();
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: "Comic Sans MS", cursive, sans-serif;
+        }
+
+        body {
+            background-color: #f0e6f0;
+        }
+
+        .hover:hover {
+            background-color: #d6cccc;
         }
 
         nav {
             background-color: #584b5f;
-            padding: 1rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            color: white;
         }
 
         .logo {
@@ -32,6 +41,7 @@ session_start();
 
         .nav-links {
             display: flex;
+            align-items: center;
             gap: 2rem;
         }
 
@@ -123,45 +133,50 @@ session_start();
 
 <body>
     <nav>
-        <a href="#" class="logo">So Sad So Stay</a>
+        <a href="./" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Rooms</a>
-            <a href="#">Contact Us</a>
-            <a href="#" style="color: #584b5f" class="book-now">Book Now</a>
+            <a class="hover" href="./">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
+            <a class="hover" href="./bookroom.php" class="book-now">Book Now</a>
         </div>
     </nav>
 
     <div class="container">
         <div class="image-section">
-            <!-- <img src="image/login-hotel.jpg"> -->
+
         </div>
         <div class="form-section"></div>
-        <!-- <h1 class="welcome-text">Welcome !</h1>
-        <h1>welcome</h1> -->
-        <form method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-    </br>
-    </br>
-    </br>
+        <form action="./backend/login.php" method="POST">
+            </br>
+            </br>
+            </br>
+            <?php if (isset($_SESSION['error'])) { ?>
+                <div class='alert alert-danger' role="alert">
+                    <?php
+                    echo $_SESSION['error'];
+                    unset($_SESSION['error']);
+                    ?>
+                </div>
+            <?php } ?>
+
+            <?php if (isset($_SESSION['success'])) { ?>
+                <div class='alert alert-success' role="alert">
+                    <?php
+                    echo $_SESSION['success'];
+                    unset($_SESSION['success']);
+                    ?>
+                </div>
+            <?php } ?>
             <h1 class="welcome-text">Welcome !</h1>
-            <div class="input-group">
-                <input type="text" name="firstName" placeholder="Your name" required>
-            </div>
-            <div class="input-group">
-                <input type="text" name="lastName" placeholder="Last Name" required>
-            </div>
             <div class="input-group">
                 <input type="text" name="username" placeholder="Username" required>
             </div>
             <div class="input-group">
-                <input type="email" name="email" placeholder="Your e-mail" required>
-            </div>
-            <div class="input-group">
-                <input type="password" name="password" placeholder="Create password" required>
+                <input type="password" id="password" name="password" placeholder="Enter password" required>
             </div>
             <div class="button-group">
-                <button type="submit" name="create_account" class="create-account">Create account</button>
-                <a href="login.php" type="button" class="btn btn-primary">Sign in</a>
+                <button type="submit" name="sign_in" class="create-account">Sign in</button>
+                <a href="registerPage.php" type="button" class="btn btn-primary">Create account</a>
             </div>
         </form>
     </div>

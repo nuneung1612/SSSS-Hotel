@@ -1,7 +1,6 @@
-
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>So Sad So Stay - Booking History</title>
     <style>
@@ -9,7 +8,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: "Comic Sans MS", cursive, sans-serif;
         }
 
         body {
@@ -41,6 +40,7 @@
             color: white;
             text-decoration: none;
         }
+
         .booking-table {
             width: 100%;
             border-collapse: collapse;
@@ -48,16 +48,19 @@
             border-radius: 10px;
             overflow: hidden;
         }
+
         .booking-table th {
             background-color: #a9a3b3;
             color: black;
             padding: 12px;
             text-align: left;
         }
+
         .booking-table td {
             padding: 12px;
             border-bottom: 1px solid #ddd;
         }
+
         .view-button {
             background-color: white;
             border: none;
@@ -65,6 +68,7 @@
             border-radius: 20px;
             cursor: pointer;
         }
+
         .sub-nav {
             background-color: #6c5f73;
             display: flex;
@@ -85,17 +89,20 @@
             background-color: #7d6e84;
         }
 
+        .hover:hover {
+            background-color: #d6cccc;
+        }
     </style>
 </head>
+
 <body>
     <nav class="top-nav">
-        <a href="#" class="logo">So Sad So Stay</a>
+        <a href="./" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a href="#">HOME</a>
-            <a href="#">Rooms</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Booking</a>
-            <a href="#" class="username">
+            <a class="hover" href="./">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
+            <a class="hover" href="./bookroom.php">Booking</a>
+            <a class="hover" href="#" class="username">
                 Username
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -106,8 +113,7 @@
     </nav>
 
     <div class="sub-nav">
-        <a href="#">Book a room</a>
-        <a href="#">my booking</a>
+        <a href="./roomdetail.php">Book a room</a>
         <a href="#">Booking History</a>
     </div>
 
@@ -147,5 +153,5 @@
         }
     </script>
 </body>
-</html>
 
+</html>

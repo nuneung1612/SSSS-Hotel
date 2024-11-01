@@ -42,6 +42,10 @@
             text-decoration: none;
         }
 
+        .hover:hover {
+            background-color: #d6cccc;
+        }
+
         .nav-links .rooms {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 0.5rem 1rem;
@@ -56,62 +60,17 @@
         }
 
         .header {
-            background-color: #e6dde6;
             padding: 2rem;
             text-align: center;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 3.5rem;
             margin-bottom: 0.5rem;
         }
 
         .header p {
-            color: #666;
-        }
-
-        .rooms-container {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            padding: 2rem;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .room-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1rem;
-            width: 300px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .room-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 1rem;
-        }
-
-        .hover:hover {
-            background-color: #d6cccc;
-        }
-
-        .room-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .room-details {
-            list-style: none;
-            margin-bottom: 1rem;
-        }
-
-        .room-details li {
-            margin-bottom: 0.3rem;
+            color: #000000;
         }
 
         .book-now {
@@ -127,8 +86,20 @@
             transition: background-color 0.3s;
         }
 
+        .hero-section {
+            margin: auto;
+            text-align: center;
+            background-color: rgb(255, 255, 255);
+            background-image: url("./image/home.jpg");
+            padding-top: auto;
+            padding-bottom: 650px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-blend-mode: multiply;
+        }
+
         .book-now:hover {
-            background-color: #b3a0b3;
+            background-color: #ffffff;
         }
     </style>
 </head>
@@ -137,28 +108,19 @@
     <nav class="top-nav">
         <a href="./" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a class="hover" href="./">Home</a>
-            <a class="hover" href="#">Rooms</a>
+            <a class="hover" href="./index.php">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
             <a class="hover" href="./bookroom.php" class="book-now-nav">Book Now</a>
         </div>
     </nav>
-
-    <div class="header">
-        <h1>Rooms</h1>
-        <p>See our rooms!</p>
-    </div>
-
-    <div class="rooms-container">
-        <div class="room-card">
-            <img src="./image/small_room.jpg" alt="Small Room" class="room-image" />
-            <h2 class="room-title">Small Room</h2>
-            <ul class="room-details">
-                <li>1 Bed</li>
-                <li>High-speed internet</li>
-                <li>Breakfast coffee or tea</li>
-                <li>Sunlight in the morning</li>
-            </ul>
-            <a href="./roomdetail.php" class="book-now">Book Now</a>
+    <div class="hero-section">
+        <div class="header">
+            <h1>So Sad So Stay Hotel</h1>
+            <p>Welcome to The So Sad So Stay Hotel</p>
+            <p>
+                Only on our Official Website will you find THE BEST Hotel Guranteed
+                for your holiday.
+            </p>
         </div>
     </div>
 </body>

@@ -1,9 +1,30 @@
 <?php
 session_start();
-// Database connection would go here
+// 1. Connect to Database
+$db = new SQLite3('./database.db');
+
+// 2. Open Database
+if (!$db) {
+    echo $db->lastErrorMsg();
+}
+
+if (isset($_SESSION['cus_login'])) {
+    $cusid = $_SESSION['cus_login'];
+
+    $check_cus = $db->prepare('SELECT * FROM user WHERE id = :id');
+    $check_cus->bindParam(':id', $cusid);
+    $result_cus = $check_cus->execute();
+    $customer = $result_cus->fetchArray(SQLITE3_ASSOC);
+    $_SESSION['cus_login_username'] = $customer['username'];
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ../frontend/loginPage.php');
+}
+$db->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +34,7 @@ session_start();
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-family: "Comic Sans MS", cursive, sans-serif;
         }
 
         body {
@@ -100,7 +121,7 @@ session_start();
             border-radius: 10px;
             padding: 1rem;
             width: 300px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .room-image {
@@ -142,21 +163,25 @@ session_start();
             transition: background-color 0.3s;
         }
 
+        .hover:hover {
+            background-color: #d6cccc;
+        }
+
         .book-now:hover {
             background-color: #b3a0b3;
         }
     </style>
 </head>
+
 <body>
     <nav class="top-nav">
-        <a href="#" class="logo">So Sad So Stay</a>
+        <a href="./" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a href="#">HOME</a>
-            <a href="#">Rooms</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Booking</a>
-            <a href="#" class="username">
-                Username
+            <a class="hover" href="./">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
+            <a class="hover" href="#">Booking</a>
+            <a class="hover" href="#" class="username">
+                <?php echo $customer['username']; ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>
@@ -166,9 +191,8 @@ session_start();
     </nav>
 
     <div class="sub-nav">
-        <a href="#">Book a room</a>
-        <a href="#">my booking</a>
-        <a href="#">Booking History</a>
+        <a class="hover" href="#">Book a room</a>
+        <a class="hover" href="./bookhistory.php">Booking History</a>
     </div>
 
     <h1 class="rooms-title">Rooms</h1>
@@ -184,8 +208,9 @@ session_start();
                 <li>Sunlight in the morning</li>
             </ul>
             <p class="availability">available : 10 rooms</p>
-            <a href="#" class="book-now">Book Now</a>
+            <a href="./roomdetail.php" class="book-now">Book Now</a>
         </div>
     </div>
 </body>
+
 </html>

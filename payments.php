@@ -4,11 +4,19 @@ session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rooms - So Sad So Stay</title>
     <style>
+        :root {
+            --primary-purple: #4A4159;
+            --light-purple: #8E8299;
+            --lighter-purple: #E8E6EC;
+            --white: #FFFFFF;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,7 +25,7 @@ session_start();
         }
 
         body {
-            background-color: #f0e6f0;
+            background-color: var(--lighter-purple);
         }
 
         .top-nav {
@@ -33,6 +41,19 @@ session_start();
             font-size: 1.5rem;
             color: white;
             text-decoration: none;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-pay {
+            background-color: var(--primary-purple);
+            color: white;
         }
 
         .nav-links {
@@ -100,7 +121,7 @@ session_start();
             border-radius: 10px;
             padding: 1rem;
             width: 300px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .room-image {
@@ -145,17 +166,76 @@ session_start();
         .book-now:hover {
             background-color: #b3a0b3;
         }
+
+        .hover:hover {
+            background-color: #d6cccc;
+        }
+
+        .booking-buttons {
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .booking-form {
+            display: grid;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            position: relative;
+        }
+
+        .popup-content img {
+            max-width: 50%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .popup-content button {
+            background-color: #6b617c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
     </style>
 </head>
+
 <body>
     <nav class="top-nav">
-        <a href="#" class="logo">So Sad So Stay</a>
+        <a href="./" class="logo">So Sad So Stay</a>
         <div class="nav-links">
-            <a href="#">HOME</a>
-            <a href="#">Rooms</a>
-            <a href="#">Contact Us</a>
-            <a href="#">Booking</a>
-            <a href="#" class="username">
+            <a class="hover" href="./">Home</a>
+            <a class="hover" href="./allroom.php">Rooms</a>
+            <a class="hover" href="./bookroom.php">Booking</a>
+            <a class="hover" href="#" class="username">
                 Username
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -167,11 +247,32 @@ session_start();
 
     <div class="sub-nav">
         <a href="#">Book a room</a>
-        <a href="#">my booking</a>
         <a href="#">Booking History</a>
     </div>
+    <div class="booking-form">
+        <h1 class="rooms-title">Payments</h1>
 
-    <h1 class="rooms-title">Payments</h1>
-
+        <div class="booking-buttons">
+            <button type="button" onclick="showPopup()" class="btn btn-pay">Scan Qr</button>
+        </div>
+    </div>
+    <div class="popup-overlay" id="popup-overlay">
+        <div class="popup-content">
+            <h1>Scan me</h1>
+            <img src="./image/qrcode.png" alt="Hotel Image">
+            <button onclick="hidePopup()">Close</button>
+            <span class="close-button" onclick="hidePopup()">&times;</span>
+        </div>
+    </div>
 </body>
+<script>
+    function showPopup() {
+        document.getElementById("popup-overlay").style.display = "flex";
+    }
+
+    function hidePopup() {
+        document.getElementById("popup-overlay").style.display = "none";
+    }
+</script>
+
 </html>
