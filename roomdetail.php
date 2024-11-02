@@ -319,7 +319,7 @@ $db = null;
                 </ul>
             </div>
 
-            <form class="booking-form">
+            <form action="./backend/booking.php" method="POST" class="booking-form">
                 <div class="form-row">
                     <div class="form-group">
                         <label>Select quantity</label>
@@ -328,7 +328,7 @@ $db = null;
                     </div>
                     <div class="form-group">
                         <label>Select Date</label>
-                        <input type="text" class="date-select" value="01/01 - 02/01">
+                        <input type="text" class="date-select" value="05/11/2024 - 16/11/2024">
                     </div>
                     <div class="form-group">
                         <label>Cost (per night)</label>
@@ -355,7 +355,7 @@ $db = null;
 
                 <div class="total-cost">
                     <label>Total cost</label>
-                    <div class="cost-display">1234 $</div>
+                    <div name = "total" class="cost-display">1234 $</div>
                 </div>
 
                 <div>
@@ -364,7 +364,7 @@ $db = null;
                 </div>
 
                 <div class="booking-buttons">
-                    <button type="button" onclick="document.location='./payments.php'" class="btn btn-pay">Book and pay Now</button>
+                    <button type="submit" name="book" onclick="document.location='./payments.php'" class="btn btn-pay">Book and pay Now</button>
                 </div>
             </form>
         </div>

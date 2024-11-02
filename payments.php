@@ -277,8 +277,8 @@ $db = null;
     </nav>
 
     <div class="sub-nav">
-        <a href="#">Book a room</a>
-        <a href="#">Booking History</a>
+        <a href="./allroom.php">Book a room</a>
+        <a href="./bookhistory.php">Booking History</a>
     </div>
     <div class="booking-form">
         <h1 class="rooms-title">Payments</h1>

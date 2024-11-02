@@ -19,6 +19,11 @@ if (isset($_SESSION['cus_login'])) {
             header('location: ./loginPage.php');
             exit();
         }
+        $book_his = $db->prepare('SELECT * FROM booking WHERE customer_id = :id');
+        $book_his->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $book_his->execute();
+        
+
     } catch (PDOException $e) {
         $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
         header('location: ./loginPage.php');
@@ -158,7 +163,6 @@ $db = null;
                 <th>BookingID</th>
                 <th>RoomID</th>
                 <th>Date</th>
-                <th>extension</th>
                 <th>quantity</th>
                 <th>cost</th>
                 <th>view detail</th>
@@ -166,17 +170,16 @@ $db = null;
         </thead>
         <tbody>
             <?php
-            // while ($row = $result->fetch_assoc()) {
-            //     echo "<tr>";
-            //     echo "<td>" . htmlspecialchars($row['BookingID']) . "</td>";
-            //     echo "<td>" . htmlspecialchars($row['RoomID']) . "</td>";
-            //     echo "<td>" . htmlspecialchars($row['CheckIn']) . " - " . htmlspecialchars($row['CheckOut']) . "</td>";
-            //     echo "<td>" . htmlspecialchars($row['Extensions']) . "</td>";
-            //     echo "<td>" . htmlspecialchars($row['Quantity']) . " room</td>";
-            //     echo "<td>" . htmlspecialchars($row['Cost']) . " $</td>";
-            //     echo "<td><button class='view-button' onclick='viewBooking(" . $row['BookingID'] . ")'>view</button></td>";
-            //     echo "</tr>";
-            // }
+            while ($book = $book_his->fetch(PDO::FETCH_ASSOC)) {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($book['booking_id']) . "</td>";
+                echo "<td>" . htmlspecialchars($book['room_id']) . "  </td>";
+                echo "<td>" . htmlspecialchars($book['date'])."</td>";
+                echo "<td>" . htmlspecialchars($book['quantity']) . " room </td>";
+                echo "<td>" . htmlspecialchars($book['cost']) . " </td>";
+                echo "<td><button class='view-button'>view</button></td>";
+                echo "</tr>";
+            }
             ?>
         </tbody>
     </table>
