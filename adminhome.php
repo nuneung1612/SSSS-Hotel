@@ -1,26 +1,37 @@
 <?php
 session_start();
-// 1. Connect to Database
-$db = new SQLite3('./database.db');
-
-// 2. Open Database
-if (!$db) {
-    echo $db->lastErrorMsg();
-}
+require_once './backend/config/db.php';
 
 if (isset($_SESSION['admin_login'])) {
     $cusid = $_SESSION['admin_login'];
 
-    $check_admin = $db->prepare('SELECT * FROM user WHERE id = :id');
-    $check_admin->bindParam(':id', $cusid);
-    $result_admin = $check_admin->execute();
-    $admin = $result_admin->fetchArray(SQLITE3_ASSOC);
-    $_SESSION['admin_login_username'] = $admin['username'];
+    try {
+        $check_cus = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $check_cus->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $check_cus->execute();
+
+        $admin = $check_cus->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin) {
+            $_SESSION['admin_login_username'] = $admin['username'];
+        } else {
+            $_SESSION['error'] = 'ไม่พบข้อมูลผู้ใช้';
+            header('location: ./loginPage.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
+        header('location: ./loginPage.php');
+        exit();
+    }
 } else {
     $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
-    header('location: ../frontend/loginPage.php');
+    header('location: ./loginPage.php');
+    exit();
 }
-$db->close();
+
+// Close database connection
+$db = null;
 ?>
 <!DOCTYPE html>
 <html>

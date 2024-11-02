@@ -1,3 +1,39 @@
+<?php
+session_start();
+require_once './backend/config/db.php';
+
+if (isset($_SESSION['cus_login'])) {
+    $cusid = $_SESSION['cus_login'];
+
+    try {
+        $check_cus = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $check_cus->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $check_cus->execute();
+
+        $customer = $check_cus->fetch(PDO::FETCH_ASSOC);
+
+        if ($customer) {
+            $_SESSION['cus_login_username'] = $customer['username'];
+        } else {
+            $_SESSION['error'] = 'ไม่พบข้อมูลผู้ใช้';
+            header('location: ./loginPage.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
+        header('location: ./loginPage.php');
+        exit();
+    }
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ./loginPage.php');
+    exit();
+}
+
+// Close database connection
+$db = null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

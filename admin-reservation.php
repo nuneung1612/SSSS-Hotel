@@ -1,3 +1,38 @@
+<?php
+session_start();
+require_once './backend/config/db.php';
+
+if (isset($_SESSION['admin_login'])) {
+    $cusid = $_SESSION['admin_login'];
+
+    try {
+        $check_cus = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $check_cus->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $check_cus->execute();
+
+        $admin = $check_cus->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin) {
+            $_SESSION['admin_login_username'] = $admin['username'];
+        } else {
+            $_SESSION['error'] = 'ไม่พบข้อมูลผู้ใช้';
+            header('location: ./loginPage.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
+        header('location: ./loginPage.php');
+        exit();
+    }
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ./loginPage.php');
+    exit();
+}
+
+// Close database connection
+$db = null;
+?>
 <!DOCTYPE html>
 <html>
 
@@ -108,7 +143,7 @@
             <a href="admin-manage-room.php">Manage Room</a>
             <a href="admin-reservation.php">Reservation</a>
             <a href="#" class="username">
-                Username
+                <?php echo $admin['username']; ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -149,7 +184,7 @@
                 <td>1</td>
                 <td>1234</td>
                 <td>Paid</td>
-                <td><button class='view-button' >view detail</button></td>
+                <td><button class='view-button'>view detail</button></td>
             </tr>
             <?php
             // while ($row = $result->fetch_assoc()) {

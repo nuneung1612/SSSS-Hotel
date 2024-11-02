@@ -1,3 +1,38 @@
+<?php
+session_start();
+require_once './backend/config/db.php';
+
+if (isset($_SESSION['admin_login'])) {
+    $cusid = $_SESSION['admin_login'];
+
+    try {
+        $check_cus = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $check_cus->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $check_cus->execute();
+
+        $admin = $check_cus->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin) {
+            $_SESSION['admin_login_username'] = $admin['username'];
+        } else {
+            $_SESSION['error'] = 'ไม่พบข้อมูลผู้ใช้';
+            header('location: ./loginPage.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
+        header('location: ./loginPage.php');
+        exit();
+    }
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ./loginPage.php');
+    exit();
+}
+
+// Close database connection
+$db = null;
+?>
 <!DOCTYPE html>
 <html>
 
@@ -15,10 +50,12 @@
         body {
             background-color: #f0e6f0;
         }
-        label{
+
+        label {
             font-size: 1.2rem;
         }
-        select{
+
+        select {
             font-size: 1rem;
             border-radius: 8px;
 
@@ -108,7 +145,7 @@
 </head>
 
 <body>
-<nav class="top-nav">
+    <nav class="top-nav">
         <a href="#" class="logo">So Sad So Stay</a>
         <div class="nav-links">
             <a href="adminhome.php">HOME</a>
@@ -116,7 +153,7 @@
             <a href="admin-manage-room.php">Manage Room</a>
             <a href="admin-reservation.php">Reservation</a>
             <a href="#" class="username">
-                Username
+                <?php echo $admin['username']; ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -133,28 +170,28 @@
 
         <form>
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <label for="date">Date</label>&nbsp;&nbsp;&nbsp;
-            <select class="form-control" name="date" id="date">
-                <option value="0">--select all--</option>
-                <?php for ($i = 1; $i <= 31; $i++): ?>
-                    <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
-                <?php endfor; ?>
-            </select>&nbsp;&nbsp;&nbsp;
-            <label for="month">Month</label>&nbsp;&nbsp;&nbsp;
-            <select class="form-control" name="month" id="month">
-                <option value="0">--select all--</option>
-                <?php for ($i = 1; $i <= 12; $i++): ?>
-                    <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
-                <?php endfor; ?>
-            </select>&nbsp;&nbsp;&nbsp;
-            <label for="year">Year</label>&nbsp;&nbsp;&nbsp;
-            <select class="form-control" name="year" id="year">
-                <option value="-select all-">--select all--</option>
-                <?php for ($i = 2000; $i <= 2024; $i++): ?>
-                    <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
-                <?php endfor; ?>
-            </select>&nbsp;&nbsp;&nbsp;
-            <button type="submit" class='history-button'>show history</button>
+                <label for="date">Date</label>&nbsp;&nbsp;&nbsp;
+                <select class="form-control" name="date" id="date">
+                    <option value="0">--select all--</option>
+                    <?php for ($i = 1; $i <= 31; $i++): ?>
+                        <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
+                    <?php endfor; ?>
+                </select>&nbsp;&nbsp;&nbsp;
+                <label for="month">Month</label>&nbsp;&nbsp;&nbsp;
+                <select class="form-control" name="month" id="month">
+                    <option value="0">--select all--</option>
+                    <?php for ($i = 1; $i <= 12; $i++): ?>
+                        <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
+                    <?php endfor; ?>
+                </select>&nbsp;&nbsp;&nbsp;
+                <label for="year">Year</label>&nbsp;&nbsp;&nbsp;
+                <select class="form-control" name="year" id="year">
+                    <option value="-select all-">--select all--</option>
+                    <?php for ($i = 2000; $i <= 2024; $i++): ?>
+                        <option value="<?php echo $i; ?>"> <?php echo $i; ?></option>
+                    <?php endfor; ?>
+                </select>&nbsp;&nbsp;&nbsp;
+                <button type="submit" class='history-button'>show history</button>
             </p>
         </form>
         </br></br>

@@ -1,6 +1,37 @@
 <?php
 session_start();
-// Database connection would go here
+require_once './backend/config/db.php';
+
+if (isset($_SESSION['cus_login'])) {
+    $cusid = $_SESSION['cus_login'];
+
+    try {
+        $check_cus = $db->prepare('SELECT * FROM users WHERE id = :id');
+        $check_cus->bindParam(':id', $cusid, PDO::PARAM_INT);
+        $check_cus->execute();
+
+        $customer = $check_cus->fetch(PDO::FETCH_ASSOC);
+
+        if ($customer) {
+            $_SESSION['cus_login_username'] = $customer['username'];
+        } else {
+            $_SESSION['error'] = 'ไม่พบข้อมูลผู้ใช้';
+            header('location: ./loginPage.php');
+            exit();
+        }
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการเชื่อมต่อฐานข้อมูล';
+        header('location: ./loginPage.php');
+        exit();
+    }
+} else {
+    $_SESSION['error'] = 'กรุณาเข้าสู่ระบบ';
+    header('location: ./loginPage.php');
+    exit();
+}
+
+// Close database connection
+$db = null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -236,7 +267,7 @@ session_start();
             <a class="hover" href="./allroom.php">Rooms</a>
             <a class="hover" href="./bookroom.php">Booking</a>
             <a class="hover" href="#" class="username">
-                Username
+                <?php echo $customer['username']; ?>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                     <circle cx="12" cy="7" r="4"></circle>

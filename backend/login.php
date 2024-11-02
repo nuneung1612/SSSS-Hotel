@@ -1,57 +1,56 @@
 <?php
 session_start();
 require_once './config/db.php';
-?>
-<?php
+
 if (isset($_POST["sign_in"])) {
-    $username = $_POST['username'];
+    $username = trim($_POST['username']);
     $password = $_POST['password'];
+
+    // Validate input
     if (empty($username)) {
         $_SESSION['error'] = 'กรุณากรอกชื่อ';
         header('location: ../loginPage.php');
-    } elseif (empty($password)) {
+        exit();
+    }
+
+    if (empty($password)) {
         $_SESSION['error'] = 'กรุณากรอกรหัสผ่าน';
         header('location: ../loginPage.php');
-    } else {
+        exit();
+    }
 
-        //check customer
-        $check_data_cus = $db->prepare('SELECT * FROM user WHERE username = :username');
-        $check_data_cus->bindParam(':username', $username);
-        $result_cus = $check_data_cus->execute();
+    try {
+        // Check user
+        $stmt = $db->prepare("SELECT * FROM users WHERE username = :username LIMIT 1");
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $rowCount_cus = 0;
-
-        if ($result_cus) {
-            while ($row_cus = $result_cus->fetchArray(SQLITE3_ASSOC)) {
-                $rowCount_cus++;
-            }
-        }
-        $row_cus = $result_cus->fetchArray(SQLITE3_ASSOC);
-        if ($rowCount_cus > 0) {
-            if ($username === $row_cus['username']) {
-                if (password_verify($password, $row_cus['password'])) {
-                    if ($row_cus['position'] == 'c') {
-                        $_SESSION['cus_login'] = $row_cus['id'];
-                        header('location: ../bookroom.php');
-                    }
-                    if ($row_cus['position'] == 'a') {
-                        $_SESSION['admin_login'] = $row_cus['id'];
-                        header('location: ../adminhome.php');
-                    }
-                } else {
-                    $_SESSION['error'] = 'รหัสผ่านผิด';
+        if ($user && password_verify($password, $user['password'])) {
+            // Login successful
+            switch ($user['position']) {
+                case 'c':
+                    $_SESSION['cus_login'] = $user['id'];
+                    header('location: ../bookroom.php');
+                    break;
+                case 'a':
+                    $_SESSION['admin_login'] = $user['id'];
+                    header('location: ../adminhome.php');
+                    break;
+                default:
+                    $_SESSION['error'] = 'ตำแหน่งผู้ใช้ไม่ถูกต้อง';
                     header('location: ../loginPage.php');
-                }
-            } else {
-                $_SESSION['error'] = 'ชื่อผู้ใช้ผิด';
-                header('location: ../loginPage.php');
             }
         } else {
-            $_SESSION['error'] = "ไม่มีข้อมูลในระบบ";
+            $_SESSION['error'] = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
             header('location: ../loginPage.php');
         }
+        $db = null;
+    } catch (PDOException $e) {
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในระบบ: ' . $e->getMessage();
+        header('location: ../loginPage.php');
+        $db = null;
     }
-    $db->close();
+    $db = null;
+    exit();
 }
-?>
-
