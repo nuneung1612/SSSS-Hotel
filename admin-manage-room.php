@@ -157,13 +157,8 @@ $db = null;
             <a href="admin-history.php">History</a>
             <a href="admin-manage-room.php">Manage Room</a>
             <a href="admin-reservation.php">Reservation</a>
-            <a href="#" class="username">
+            <a id="account" class="hover" href="../backend/logout.php">
                 <?php echo $admin['username']; ?>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                </svg>
             </a>
         </div>
     </nav>
@@ -220,6 +215,24 @@ $db = null;
         function viewBooking(bookingId) {
             // Add your viewing logic here
             window.location.href = 'booking-details.php?id=' + bookingId;
+        }
+        account = document.getElementById("account");
+        // เมื่อมีการ hover ที่ข้อความ
+        account.addEventListener("mouseover", showLogout);
+        // เมื่อออกจากข้อความ
+        account.addEventListener("mouseout", hideLogout);
+
+        function showLogout() {
+            account.textContent = "ออกจากระบบ"
+            // แสดงป๊อปอัพ
+            // document.getElementById("logoutPopup").style.display = "block";
+        }
+
+        function hideLogout() {
+            // console.log("Hide Logout Popup called");
+            account.textContent = "<?php echo $admin['username']; ?>"
+            // ซ่อนป๊อปอัพ
+            // document.getElementById("logoutPopup").style.display = "none";
         }
     </script>
 </body>
