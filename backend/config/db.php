@@ -1,7 +1,7 @@
 <?php
 $servername = "database-hotel.c3g80xkhlr8y.us-east-1.rds.amazonaws.com";
 $username = "admin";
-$password = getenv($Pass);
+$password = getenv('Pass');
 
 try {
     $db = new PDO("mysql:host=$servername;dbname=HotelDB", $username, $password);
